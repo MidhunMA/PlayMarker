@@ -1,5 +1,6 @@
-package com.PlayMarker.usermanagement;
+package com.PlayMarker.usermanage;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
@@ -15,10 +16,14 @@ public class User {
     
     @NotBlank
     @Size(max = 30)
+    @Column(unique = true)
     private String username;
+    
     @NotBlank
     @Size(max = 20,min=8)
     private String password;
+    
+    @Column(unique = true)
     private String email;
 	public Long getId() {
 		return id;
@@ -49,6 +54,9 @@ public class User {
 		this.username = username;
 		this.password = password;
 	}
+	public User() {
+        // Default constructor
+    }
 
     // Constructors, getters, and setters
 }
