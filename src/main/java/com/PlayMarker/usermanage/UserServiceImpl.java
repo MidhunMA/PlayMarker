@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
 	
 	User user;
 	@Override
-	public void registerUser(User user) {
-		userRepository.save(user);
+	public User registerUser(User user) {
+		return userRepository.save(user);
 	}
 	
 	
@@ -66,8 +66,22 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void deleteUser(String username) {
-		userRepository.deleteByUsername(username);
+	public String deleteUser(Long id) {
+		
+		User dbUser=userRepository.findById(id).orElse(null);
+		if (dbUser!=null) {
+			
+			userRepository.deleteById(id);
+			return "Deleted";
+		}
+		else
+		{
+			return "No such User";
+		}
+		
+		
+		
+		//implement a find and return string to indicate delete success/not
 		
 	}
 

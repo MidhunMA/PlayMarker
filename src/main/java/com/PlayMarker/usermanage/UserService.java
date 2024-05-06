@@ -4,11 +4,11 @@ package com.PlayMarker.usermanage;
 
 
 public interface UserService {
-    void registerUser(User user);
+    User registerUser(User user);
     boolean loginUser(String email, String password);
     String updateUser(Long id, User user);
     User findUsername(String email);
-    void deleteUser(String username);
+    String deleteUser(Long id);
     UserDO getUser(Long id);
     // Other methods  as needed
 }

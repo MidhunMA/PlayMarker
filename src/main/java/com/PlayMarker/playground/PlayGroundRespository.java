@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlayGroundRespository extends JpaRepository<PlayGround,Integer>{
 	
+	void deleteByGroundName(String groundName);
 
 }

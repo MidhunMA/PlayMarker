@@ -2,19 +2,20 @@ package com.PlayMarker.playground;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.PlayMarker.usermanage.User;
-import com.PlayMarker.usermanage.UserService;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+
+@RestController
+@RequestMapping("/Ground")
 public class PlayGroundController {
 	
 	@Autowired
@@ -26,24 +27,25 @@ public class PlayGroundController {
 		
 	}
 	
-	@GetMapping("/findGround")
-	public PlayGround findGround(@RequestParam String groundName ) {
-		return PlayGroundService.findGround(groundName);
+	@GetMapping("/getGround/{groundId}")
+	public PlayGround findGround(@PathVariable Integer groundId ) {
+		return playGroundService.getGround(groundId);
 		
 		
 	}
 	
 	@PutMapping("/updateGround/{groundId}")
-	public String updateUserDetails(@PathVariable int groundId,@RequestBody PlayGround playGround) {
+	public String updateGround(@PathVariable Integer groundId,@RequestBody PlayGround playGround) {
 		return playGroundService.updateGround(groundId, playGround); 
 	}
 	
 	
 	
-	@DeleteMapping("/deleteGround")
-	public String deleteUser(@RequestParam String username ) {
-     userService.deleteUser(username);
-     return "User "+username+" removed";
+	@DeleteMapping("/deleteGround/{groundId}")
+	public String deleteGround(@PathVariable Integer groundId ) {
+     
+     return playGroundService.deleteGround(groundId);
+     
 	}
 }
 

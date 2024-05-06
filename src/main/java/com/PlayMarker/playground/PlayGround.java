@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -14,26 +15,26 @@ public class PlayGround {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int groundId;
+	private Integer groundId;
     
     @NotBlank
     @Size(max = 30)
     @Column(unique = true)
 	private String groundName;
     
-    @NotBlank
-	private int capacity;
+    @NotNull
+	private Integer capacity;
 	//private Set<String> PriorityUsers;//for marking users always allow even if in waiting list, can be used to mark homeground players
 	//private String[] PlayingUsers;
 	//private ArrayList<String> WaitingListUsers;
 
-	public PlayGround(@NotBlank @Size(max = 30) String groundName, @NotBlank int capacity) {
+	public PlayGround(@NotBlank @Size(max = 30) String groundName, @NotBlank Integer capacity) {
 		super();
 		this.groundName = groundName;
 		this.capacity = capacity;
 	}
 
-	public int getPlayId() {
+	public Integer getGroundId() {
 		return groundId;
 	}
 
@@ -45,12 +46,15 @@ public class PlayGround {
 		this.groundName = groundName;
 	}
 
-	public int getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(int capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
-	
+	public PlayGround() {
+        // Default constructor
+    }
+
 }

@@ -19,8 +19,8 @@ public class UserControler {
 	
 	@PostMapping("/addUser")
 	public User addUser(@RequestBody User user) {
-		userService.registerUser(user);
-		return user;
+		
+		return userService.registerUser(user);
 	}
 	
 	@GetMapping("/findUsername")
@@ -42,9 +42,9 @@ public class UserControler {
 	
 	
 	
-	@DeleteMapping("/deleteUser")
-	public String deleteUser(@RequestParam String username ) {
-     userService.deleteUser(username);
-     return "User "+username+" removed";
+	@DeleteMapping("/deleteUser/{id}")
+	public String deleteUser(@PathVariable Long id ) {
+     return userService.deleteUser(id);
+     
 	}
 }
