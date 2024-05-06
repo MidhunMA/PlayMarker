@@ -66,11 +66,11 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 		PlayGround dbPlayGround=playGroundRespository.findById(groundId).orElse(null);
 		if (dbPlayGround!=null) {
 			playGroundRespository.deleteById(groundId);
-			return "Deleted User";
+			return "Deleted Ground";
 		}
 		else
 		{
-			return "No such user";
+			return "No such Ground";
 		}
 		
 		}
