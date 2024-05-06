@@ -9,5 +9,6 @@ public interface UserService {
     String updateUser(Long id, User user);
     User findUsername(String email);
     void deleteUser(String username);
+    UserDO getUser(Long id);
     // Other methods  as needed
 }

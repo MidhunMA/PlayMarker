@@ -29,6 +29,12 @@ public class UserControler {
 		return user.getUsername();
 	}
 	
+	@GetMapping("/getUser/{id}")
+	public UserDO getUser(@PathVariable Long id ) {
+		UserDO user=userService.getUser(id);
+		return user;
+	}
+	
 	@PutMapping("/updateUserDetails/{id}")
 	public String updateUserDetails(@PathVariable Long id,@RequestBody User user) {
 		return userService.updateUser(id, user); 

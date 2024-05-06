@@ -71,4 +71,12 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+
+	@Override
+	public UserDO getUser(Long id) {
+		UserDO userDO=new UserDO(id);
+		return userDO;
+	}
+
 }
