@@ -8,9 +8,16 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class PlayGround {
 	
     @Id
@@ -28,33 +35,5 @@ public class PlayGround {
 	//private String[] PlayingUsers;
 	//private ArrayList<String> WaitingListUsers;
 
-	public PlayGround(@NotBlank @Size(max = 30) String groundName, @NotBlank Integer capacity) {
-		super();
-		this.groundName = groundName;
-		this.capacity = capacity;
-	}
-
-	public Integer getGroundId() {
-		return groundId;
-	}
-
-	public String getGroundName() {
-		return groundName;
-	}
-
-	public void setGroundName(String groundName) {
-		this.groundName = groundName;
-	}
-
-	public Integer getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(Integer capacity) {
-		this.capacity = capacity;
-	}
-	public PlayGround() {
-        // Default constructor
-    }
 
 }
