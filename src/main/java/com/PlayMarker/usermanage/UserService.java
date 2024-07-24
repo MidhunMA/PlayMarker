@@ -1,7 +1,6 @@
 package com.PlayMarker.usermanage;
 
-
-
+import com.PlayMarker.playground.PlayGround;
 
 public interface UserService {
     User registerUser(User user);
@@ -11,4 +10,5 @@ public interface UserService {
     String deleteUser(Long id);
     UserDO getUser(Long id);
     // Other methods  as needed
+	User addUserToGround(User user, PlayGround playGround) throws Exception;
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.PlayMarker.playground.PlayGround;
+
 @RestController
 @RequestMapping("/User")
 public class UserControler {
@@ -21,6 +23,12 @@ public class UserControler {
 	public User addUser(@RequestBody User user) {
 		
 		return userService.registerUser(user);
+	}
+	
+	@PostMapping("/addUserToGround")
+	public User addUser(@RequestBody User user,@RequestBody PlayGround playGround) throws Exception {
+		
+		return userService.addUserToGround(user,playGround);
 	}
 	
 	@GetMapping("/findUsername")
@@ -34,6 +42,8 @@ public class UserControler {
 		UserDO user=userService.getUser(id);
 		return user;
 	}
+	
+	
 	
 	@PutMapping("/updateUserDetails/{id}")
 	public String updateUserDetails(@PathVariable Long id,@RequestBody User user) {

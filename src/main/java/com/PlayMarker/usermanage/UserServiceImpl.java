@@ -5,6 +5,9 @@ package com.PlayMarker.usermanage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.PlayMarker.playground.PlayGround;
+import com.PlayMarker.playground.PlayGroundRespository;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -12,6 +15,9 @@ import jakarta.transaction.Transactional;
 public class UserServiceImpl implements UserService {
 	@Autowired
     UserRepository userRepository;
+	
+	@Autowired
+	PlayGroundRespository playGroundRespository;
 	
 	User user;
 	@Override
@@ -91,6 +97,37 @@ public class UserServiceImpl implements UserService {
 	public UserDO getUser(Long id) {
 		UserDO userDO=new UserDO(id);
 		return userDO;
+	}
+
+
+
+	@Override
+	public User addUserToGround(User user, PlayGround playGround) throws Exception {
+		
+		if(!user.getUsername().equals(null) && userRepository.existsByUsername(user.getUsername()))
+		{
+			if(playGround.getCurrentlyFilledNumber()<playGround.getCapacity())
+			{
+			user.setPlayGround(playGround);
+			playGround.setCurrentlyFilledNumber(playGround.getCurrentlyFilledNumber()+1);
+			user.setCurrentPos(playGround.getCurrentlyFilledNumber());
+			playGroundRespository.save(playGround);
+			userRepository.save(user);
+			
+			
+			}
+			else {
+				
+				throw new Exception("Ground Is Full");
+				
+			}
+		}
+		else {
+			
+			throw new Exception("User in Null or not Exists in System");
+		}
+	
+		return user;
 	}
 
 }

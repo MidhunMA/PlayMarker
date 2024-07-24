@@ -31,6 +31,8 @@ public class PlayGround {
     
     @NotNull
 	private Integer capacity;
+    
+    private Integer currentlyFilledNumber=0;
 	//private Set<String> PriorityUsers;//for marking users always allow even if in waiting list, can be used to mark homeground players
 	//private String[] PlayingUsers;
 	//private ArrayList<String> WaitingListUsers;

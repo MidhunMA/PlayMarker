@@ -39,6 +39,8 @@ public class User {
     @Column(unique = true)
     private String email;
     
+    private Integer currentPos;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "groundId")
     private PlayGround playGround;
