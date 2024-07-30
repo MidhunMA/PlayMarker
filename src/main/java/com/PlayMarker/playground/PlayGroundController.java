@@ -2,7 +2,8 @@ package com.PlayMarker.playground;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,31 +23,34 @@ public class PlayGroundController {
 	PlayGroundService playGroundService;
 	
 	@PostMapping("/addGround")
-	public PlayGround addGround(@RequestBody PlayGround playGround) {
+	public PlayGroundDO addGround(@RequestBody PlayGroundDO playGround) {
 		return playGroundService.addGround(playGround);
 		
 	}
 	
-	@GetMapping("/getGround/{groundId}")
-	public PlayGround findGround(@PathVariable Integer groundId ) {
-		return playGroundService.getGround(groundId);
+	@GetMapping("/getGround/{groundName}")
+	public PlayGroundDO getGround(@PathVariable String groundName) {
+		return playGroundService.getGround(groundName);
 		
 		
 	}
 	
-	@PutMapping("/updateGround/{groundId}")
-	public String updateGround(@PathVariable Integer groundId,@RequestBody PlayGround playGround) {
-		return playGroundService.updateGround(groundId, playGround); 
+	@PutMapping("/updateGround/{groundName}")
+	public PlayGroundDO updateGround(@PathVariable String groundName,@RequestBody PlayGroundDO playGround) {
+		return playGroundService.updateGround(groundName,playGround); 
 	}
 	
 	
 	
-	@DeleteMapping("/deleteGround/{groundId}")
-	public String deleteGround(@PathVariable Integer groundId ) {
-     
-     return playGroundService.deleteGround(groundId);
+	@DeleteMapping("/deleteGround/{groundName}")
+	public ResponseEntity<String> deleteGround(@PathVariable String groundName ) {   
+       String Status=playGroundService.deleteGround(groundName);
+       return new ResponseEntity<>("Success",HttpStatus.OK);
      
 	}
+	
+
+	
 }
 
 

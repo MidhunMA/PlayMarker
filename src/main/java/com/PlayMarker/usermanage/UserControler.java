@@ -8,53 +8,41 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.PlayMarker.playground.PlayGroundDO;
 
-import com.PlayMarker.playground.PlayGround;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 public class UserControler {
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("/addUser")
-	public User addUser(@RequestBody User user) {
-		
+	public UserDO addUser(@RequestBody UserDO user) {
+
 		return userService.registerUser(user);
 	}
-	
-	@PostMapping("/addUserToGround")
-	public User addUser(@RequestBody User user,@RequestBody PlayGround playGround) throws Exception {
-		
-		return userService.addUserToGround(user,playGround);
+
+	@GetMapping("/getUser/{username}")
+	public UserDO getUser(@PathVariable String username) {
+		return userService.getUser(username);
+
 	}
-	
-	@GetMapping("/findUsername")
-	public String findUsername(@RequestParam String email ) {
-		User user=userService.findUsername(email);
-		return user.getUsername();
+
+	@PutMapping("/updateUserDetails")
+	public UserDO updateUserDetails(@RequestBody UserDO user) {
+		return userService.updateUser(user);
 	}
-	
-	@GetMapping("/getUser/{id}")
-	public UserDO getUser(@PathVariable Long id ) {
-		UserDO user=userService.getUser(id);
-		return user;
+
+	@DeleteMapping("/deleteUser/{username}")
+	public UserDO deleteUser(@PathVariable String username ){
+     return userService.deleteUser(username);
 	}
-	
-	
-	
-	@PutMapping("/updateUserDetails/{id}")
-	public String updateUserDetails(@PathVariable Long id,@RequestBody User user) {
-		return userService.updateUser(id, user); 
-	}
-	
-	
-	
-	@DeleteMapping("/deleteUser/{id}")
-	public String deleteUser(@PathVariable Long id ) {
-     return userService.deleteUser(id);
-     
+
+	@PostMapping("/addGroundToPlayer/{playerName}")
+	public UserDO addGroundToPlayer(@PathVariable String playerName,@RequestBody PlayGroundDO playGround)
+	{
+		return  userService.addGroundToPlayer(playerName,playGround);
 	}
 }

@@ -15,64 +15,37 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 	PlayGroundRespository playGroundRespository;
 	
 	@Override
-	public String updateGround(Integer groundId, PlayGround playGround) {
+	public PlayGroundDO updateGround(String groundName,PlayGroundDO playGround) {
 		
+		PlayGround playGroundE = new PlayGround();
+		playGroundE=playGroundRespository.findByGroundName(groundName);
+		playGroundE.setGroundName(playGround.getGroundName());
+		playGroundE.setCapacity(playGround.getCapacity());
+		return playGround.dofromEntity(playGroundE);
+	}
 
-		PlayGround dbPlayGround=playGroundRespository.findById(groundId).orElse(null);
-		String message="";
+	@Override
+	public PlayGroundDO addGround(PlayGroundDO playGround) {
+	PlayGround playGround2=playGroundRespository.save(playGround.toEntity());
+	return playGround.dofromEntity(playGround2);
 		
-		if(dbPlayGround==null) {
-			message="There is no such Ground with id "+ groundId;
-		}
-		else {
-		 if(playGround.getCapacity()!=null && playGround.getGroundName() !=null) {
-			dbPlayGround.setCapacity(playGround.getCapacity());
-			dbPlayGround.setGroundName(playGround.getGroundName());
-			playGroundRespository.save(dbPlayGround);
-			message="Updated GroundName: "+dbPlayGround.getGroundName()+"\n"+ "Updated Capacity: "+dbPlayGround.getCapacity() ;
-		    }
-		 else if(playGround.getCapacity()!=null && playGround.getGroundName()==null) {
-			 dbPlayGround.setCapacity(playGround.getCapacity());
-			 playGroundRespository.save(dbPlayGround);
-			message="Updated Capacity: "+dbPlayGround.getCapacity()+ " for the Ground : "+dbPlayGround.getGroundName() ;
-			 }
-		 else if(playGround.getCapacity()==null && playGround.getGroundName()!=null) {
-			 dbPlayGround.setGroundName(playGround.getGroundName());
-			 playGroundRespository.save(dbPlayGround);
-			message="Updated GroundName: "+dbPlayGround.getGroundName()+" for the Ground : "+dbPlayGround.getGroundName() ;
-			}
-		}
-		
-		return message;
+	}
 
-		}
+	@Override
+	public PlayGroundDO getGround(String groundName) {
+		
+		PlayGroundDO playGroundDO=new PlayGroundDO();
+		return playGroundDO.dofromEntity(playGroundRespository.findByGroundName(groundName));
+	}
+
+	@Override
+	public String deleteGround(String groundName) {
+		
+		
+		playGroundRespository.deleteByGroundName(groundName);
+		String status="Successfully_deleted";
+		return status;
+	}
+
 	
-
-	@Override
-	public PlayGround addGround(PlayGround playGround) {
-		
-		return playGroundRespository.save(playGround);
-	}
-
-	@Override
-	public PlayGround getGround(Integer groundId) {
-		
-		return playGroundRespository.findById(groundId).orElse(null);
-	}
-
-	@Override
-	public String deleteGround(Integer groundId) {
-		
-		PlayGround dbPlayGround=playGroundRespository.findById(groundId).orElse(null);
-		if (dbPlayGround!=null) {
-			playGroundRespository.deleteById(groundId);
-			return "Deleted Ground";
-		}
-		else
-		{
-			return "No such Ground";
-		}
-		
-		}
-
 }

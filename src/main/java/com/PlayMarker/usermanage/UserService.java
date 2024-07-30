@@ -1,14 +1,19 @@
 package com.PlayMarker.usermanage;
 
 import com.PlayMarker.playground.PlayGround;
+import com.PlayMarker.playground.PlayGroundDO;
 
 public interface UserService {
-    User registerUser(User user);
-    boolean loginUser(String email, String password);
-    String updateUser(Long id, User user);
-    User findUsername(String email);
-    String deleteUser(Long id);
-    UserDO getUser(Long id);
-    // Other methods  as needed
-	User addUserToGround(User user, PlayGround playGround) throws Exception;
+
+	UserDO registerUser(UserDO user);
+
+	UserDO getUser(String username);
+
+	UserDO updateUser(UserDO user);
+
+	UserDO deleteUser(String username);
+
+	UserDO addGroundToPlayer(String playerName, PlayGroundDO playGround);
+
+   
 }

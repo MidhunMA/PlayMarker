@@ -2,13 +2,13 @@ package com.PlayMarker.playground;
 
 public interface PlayGroundService {
 
-	String updateGround(Integer groundId, PlayGround playGround);
+	PlayGroundDO updateGround(String groundName,PlayGroundDO playGround);
 
-	PlayGround addGround(PlayGround playGround);
+	PlayGroundDO addGround(PlayGroundDO playGround);
 
-	 PlayGround getGround(Integer groundId) ;
+	PlayGroundDO getGround(String groundName) ;
 
-	 String deleteGround(Integer groundId) ;
+	String deleteGround(String groundName) ;
 
 }
  

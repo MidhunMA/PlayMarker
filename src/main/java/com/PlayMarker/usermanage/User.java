@@ -39,10 +39,11 @@ public class User {
     @Column(unique = true)
     private String email;
     
-    private Integer currentPos;
+    
+    private boolean confirmedFlag=false;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "groundId")
-    private PlayGround playGround;
+    @JoinColumn(name="confirmedPlayGround",referencedColumnName = "groundName")
+    private PlayGround confirmedPlayGround;
     // Constructors, getters, and setters
 }

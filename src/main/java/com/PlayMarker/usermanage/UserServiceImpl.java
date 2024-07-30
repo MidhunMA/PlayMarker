@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.PlayMarker.playground.PlayGround;
+import com.PlayMarker.playground.PlayGroundDO;
 import com.PlayMarker.playground.PlayGroundRespository;
 
 import jakarta.transaction.Transactional;
@@ -18,116 +19,36 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	PlayGroundRespository playGroundRespository;
-	
-	User user;
-	@Override
-	public User registerUser(User user) {
-		return userRepository.save(user);
-	}
-	
-	
 
 	@Override
-	public boolean loginUser(String email, String password) {
-		return true;
+	public UserDO registerUser(UserDO user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public String updateUser(Long id,User user) {
-	User dbUser=userRepository.findById(id).orElse(null);
-	String message="";
-	
-	if(dbUser==null) {
-		message="There is no such user with id "+ id;
+	public UserDO getUser(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	else {
-	 if(user.getEmail()!=null && user.getUsername() !=null) {
-		dbUser.setEmail(user.getEmail());
-		dbUser.setUsername(user.getUsername());
-		userRepository.save(dbUser);
-		message="Updated username: "+dbUser.getUsername()+"\n"+ "Updated MailId: "+dbUser.getEmail() ;
-	    }
-	 else if(user.getEmail()!=null && user.getUsername()==null) {
-		dbUser.setEmail(user.getEmail());
-		userRepository.save(dbUser);
-		message="Updated MailId: "+dbUser.getEmail()+" for the user : "+dbUser.getUsername() ;
-		 }
-	 else if(user.getEmail()==null && user.getUsername()!=null) {
-		dbUser.setUsername(user.getUsername());
-		userRepository.save(dbUser);
-		message="Updated UserName: "+dbUser.getUsername()+" for the user : "+dbUser.getUsername() ;
-		}
+
+	@Override
+	public UserDO updateUser(UserDO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserDO deleteUser(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserDO addGroundToPlayer(String playerName, PlayGroundDO playGround) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
-	return message;
-
-	}
-
-
-	@Override
-	public User findUsername(String email) {
-	  return userRepository.findByEmail(email);
-	}
-
-
-
-	@Override
-	public String deleteUser(Long id) {
-		
-		User dbUser=userRepository.findById(id).orElse(null);
-		if (dbUser!=null) {
-			
-			userRepository.deleteById(id);
-			return "Deleted";
-		}
-		else
-		{
-			return "No such User";
-		}
-		
-		
-		
-		//implement a find and return string to indicate delete success/not
-		
-	}
-
-
-
-	@Override
-	public UserDO getUser(Long id) {
-		UserDO userDO=new UserDO(id);
-		return userDO;
-	}
-
-
-
-	@Override
-	public User addUserToGround(User user, PlayGround playGround) throws Exception {
-		
-		if(!user.getUsername().equals(null) && userRepository.existsByUsername(user.getUsername()))
-		{
-			if(playGround.getCurrentlyFilledNumber()<playGround.getCapacity())
-			{
-			user.setPlayGround(playGround);
-			playGround.setCurrentlyFilledNumber(playGround.getCurrentlyFilledNumber()+1);
-			user.setCurrentPos(playGround.getCurrentlyFilledNumber());
-			playGroundRespository.save(playGround);
-			userRepository.save(user);
-			
-			
-			}
-			else {
-				
-				throw new Exception("Ground Is Full");
-				
-			}
-		}
-		else {
-			
-			throw new Exception("User in Null or not Exists in System");
-		}
 	
-		return user;
-	}
-
 }
