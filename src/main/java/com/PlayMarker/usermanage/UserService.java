@@ -9,11 +9,11 @@ public interface UserService {
 
 	UserDO getUser(String username);
 
-	UserDO updateUser(UserDO user);
+	UserDO updateUser(String username,UserDO user);
 
-	UserDO deleteUser(String username);
+	String deleteUser(String username);
 
-	UserDO addGroundToPlayer(String playerName, PlayGroundDO playGround);
+	String addGroundToPlayer(String playerName, String playGroundName);
 
-   
+	String removeGroundFromPlayer (String playerName, String playGroundName);
 }

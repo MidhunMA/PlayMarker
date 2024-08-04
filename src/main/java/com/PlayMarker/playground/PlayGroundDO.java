@@ -1,5 +1,10 @@
 package com.PlayMarker.playground;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import com.PlayMarker.usermanage.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +20,9 @@ public class PlayGroundDO {
 	
 	private String groundName;
 	private Integer capacity;
+	private Set<User> confirmedUsers= new LinkedHashSet<User>();
+	
+	
 	
     // Method to convert PlayGroundDO to PlayGround entity
     public PlayGround toEntity() {
@@ -27,8 +35,9 @@ public class PlayGroundDO {
     // Method to convert PlayGround entity to PlayGroundDO
     public PlayGroundDO dofromEntity(PlayGround playground) {
         PlayGroundDO playGroundDO = new PlayGroundDO();
-        playGroundDO.setGroundName(this.groundName);
-    	playGroundDO.setCapacity(this.capacity);
+        playGroundDO.setGroundName(playground.getGroundName());
+    	playGroundDO.setCapacity(playground.getCapacity());
+    	playGroundDO.setConfirmedUsers(playground.getConfirmedUsers());;
         return playGroundDO;
     }
 	

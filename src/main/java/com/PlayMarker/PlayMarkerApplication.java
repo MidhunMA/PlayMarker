@@ -1,11 +1,9 @@
 package com.PlayMarker;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 
 
 @SpringBootApplication
@@ -20,3 +18,5 @@ public class PlayMarkerApplication {
 }
       
  
+//next to fix, PlaygroundService.deleteGround delete a ground while it already added to multiple users.Issues in deleting the references...rest all works fine now
+//Swagger Link: http://localhost:8080/swagger-ui/index.html

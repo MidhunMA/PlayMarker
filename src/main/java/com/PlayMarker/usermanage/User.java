@@ -1,10 +1,12 @@
 package com.PlayMarker.usermanage;
 
 import com.PlayMarker.playground.PlayGround;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,7 +23,7 @@ import jakarta.persistence.GenerationType;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "confirmedPlayGround")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +44,9 @@ public class User {
     
     private boolean confirmedFlag=false;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="confirmedPlayGround",referencedColumnName = "groundName")
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="confirmedPlayGround")
     private PlayGround confirmedPlayGround;
     // Constructors, getters, and setters
 }

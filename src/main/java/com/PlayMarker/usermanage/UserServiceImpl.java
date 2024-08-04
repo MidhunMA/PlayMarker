@@ -2,13 +2,16 @@ package com.PlayMarker.usermanage;
 
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.PlayMarker.playground.PlayGround;
-import com.PlayMarker.playground.PlayGroundDO;
 import com.PlayMarker.playground.PlayGroundRespository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -22,33 +25,71 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDO registerUser(UserDO user) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return user.dofromEntity(userRepository.save(user.toEntity()));
 	}
 
 	@Override
 	public UserDO getUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDO userDO=new UserDO();
+		return userDO.dofromEntity(userRepository.findByUsername(username));
 	}
-
+    
+	@Transactional
+	@Modifying
 	@Override
-	public UserDO updateUser(UserDO user) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserDO updateUser(String username,UserDO user) {
+		User user2 = new User();
+		user2=userRepository.findByUsername(username);
+		user2.setUsername(user.getUsername());
+		user2.setEmail(user.getEmail());
+		user2.setPassword(user.getPassword());
+		return user.dofromEntity(userRepository.save(user2));
 	}
-
+     
+	@Transactional
+	@Modifying
 	@Override
-	public UserDO deleteUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UserDO addGroundToPlayer(String playerName, PlayGroundDO playGround) {
-		// TODO Auto-generated method stub
-		return null;
+	public String deleteUser(String username) {
+		userRepository.deleteByUsername(username);
+		String status="succesfully deleted";
+		return status;
 	}
 	
+	@Override
+	public String addGroundToPlayer(String playerName, String playGroundName) {
+		
+		String status=null;
+		PlayGround playGround=playGroundRespository.findByGroundName(playGroundName);
+		User user=userRepository.findByUsername(playerName);
+		if(playGround.getCapacity()>playGround.getConfirmedUsers().size()) {
+			user.setConfirmedPlayGround(playGround);
+			user.setConfirmedFlag(true);
+			userRepository.save(user);
+			status="Added Successfully";
+		}
+		else{
+			status="Ground is Filled already";
+		}
+		return status;
+		
+		
+	}
+	
+	@Transactional
+	@Modifying
+	@Override
+	public String removeGroundFromPlayer(String playerName, String playGroundName) {
+		
+		String status=null;
+		User user=userRepository.findByUsername(playerName);
+			user.setConfirmedPlayGround(null);
+			user.setConfirmedFlag(false);
+			userRepository.save(user);
+			status="Removed Successfully";
+		return status;
+		
+		
+	}
 	
 }

@@ -1,6 +1,8 @@
 package com.PlayMarker.usermanage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +21,10 @@ public class UserControler {
 	UserService userService;
 
 	@PostMapping("/addUser")
-	public UserDO addUser(@RequestBody UserDO user) {
+	public ResponseEntity<UserDO> addUser(@RequestBody UserDO user) {
 
-		return userService.registerUser(user);
+		UserDO userR=userService.registerUser(user);
+		return new ResponseEntity<UserDO>(userR,HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/getUser/{username}")
@@ -30,19 +33,32 @@ public class UserControler {
 
 	}
 
-	@PutMapping("/updateUserDetails")
-	public UserDO updateUserDetails(@RequestBody UserDO user) {
-		return userService.updateUser(user);
+	@PutMapping("/updateUserDetails/{username}")
+	public ResponseEntity<UserDO> updateUserDetails(@RequestBody UserDO user, @PathVariable String username) {
+		UserDO userR= userService.updateUser(username,user);
+		return new ResponseEntity<UserDO>(userR,HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/deleteUser/{username}")
-	public UserDO deleteUser(@PathVariable String username ){
-     return userService.deleteUser(username);
+	public ResponseEntity<String> deleteUser(@PathVariable String username ){
+     String status= userService.deleteUser(username);
+     return new ResponseEntity<String>(status,HttpStatus.OK);
+     
 	}
 
-	@PostMapping("/addGroundToPlayer/{playerName}")
-	public UserDO addGroundToPlayer(@PathVariable String playerName,@RequestBody PlayGroundDO playGround)
+	@PutMapping("/addGroundToPlayer/{playGroundName}/{playerName}")
+	public ResponseEntity<String> addGroundToPlayer(@PathVariable String playerName,@PathVariable String playGroundName)
 	{
-		return  userService.addGroundToPlayer(playerName,playGround);
+		String status=userService.addGroundToPlayer(playerName,playGroundName);
+		return new ResponseEntity<String>(status,HttpStatus.ACCEPTED);
 	}
+	
+	@PutMapping("/removeGroundFromPlayer/{playGroundName}/{playerName}")
+	public ResponseEntity<String> removeGroundFromPlayer(@PathVariable String playerName,@PathVariable String playGroundName)
+	{
+		String status=userService.removeGroundFromPlayer(playerName,playGroundName);
+		return new ResponseEntity<String>(status,HttpStatus.ACCEPTED);
+	}
+	
+	
 }
