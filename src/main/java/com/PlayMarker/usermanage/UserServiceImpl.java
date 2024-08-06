@@ -56,6 +56,8 @@ public class UserServiceImpl implements UserService {
 	@Modifying
 	@Override
 	public String deleteUser(String username) {
+		
+		User usertr=userRepository.findByUsername(username).orElseThrow(()->new NotPresentException("User Not Found In Database"));
 		userRepository.deleteByUsername(username);
 		String status="succesfully deleted";
 		return status;
@@ -88,6 +90,7 @@ public class UserServiceImpl implements UserService {
 	public String removeGroundFromPlayer(String playerName, String playGroundName) {
 		
 		String status=null;
+		PlayGround groundE=playGroundRespository.findByGroundName(playGroundName).orElseThrow(()->new NotPresentException("Ground Not Found In Database"));
 		User user=userRepository.findByUsername(playerName).orElseThrow(()->new NotPresentException("User Not Found In Database"));
 			user.setConfirmedPlayGround(null);
 			user.setConfirmedFlag(false);
