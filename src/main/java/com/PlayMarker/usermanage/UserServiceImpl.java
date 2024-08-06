@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import com.PlayMarker.Exceptions.GroundFilledException;
 import com.PlayMarker.playground.PlayGround;
 import com.PlayMarker.playground.PlayGroundRespository;
 
@@ -15,7 +16,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
-@Transactional 
 public class UserServiceImpl implements UserService {
 	@Autowired
     UserRepository userRepository;
@@ -24,12 +24,15 @@ public class UserServiceImpl implements UserService {
 	PlayGroundRespository playGroundRespository;
 
 	@Override
+	@Transactional
+	@Modifying
 	public UserDO registerUser(UserDO user) {
 		
 		return user.dofromEntity(userRepository.save(user.toEntity()));
 	}
 
 	@Override
+	@Transactional
 	public UserDO getUser(String username) {
 		UserDO userDO=new UserDO();
 		return userDO.dofromEntity(userRepository.findByUsername(username));
@@ -57,6 +60,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public String addGroundToPlayer(String playerName, String playGroundName) {
 		
 		String status=null;
@@ -69,7 +73,7 @@ public class UserServiceImpl implements UserService {
 			status="Added Successfully";
 		}
 		else{
-			status="Ground is Filled already";
+			throw new GroundFilledException("Ground is filled Already");
 		}
 		return status;
 		
@@ -86,6 +90,7 @@ public class UserServiceImpl implements UserService {
 			user.setConfirmedPlayGround(null);
 			user.setConfirmedFlag(false);
 			userRepository.save(user);
+			userRepository.flush();//to ensure changes are applied
 			status="Removed Successfully";
 		return status;
 		

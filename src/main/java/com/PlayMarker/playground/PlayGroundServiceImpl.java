@@ -14,7 +14,6 @@ import com.PlayMarker.usermanage.UserService;
 import jakarta.transaction.Transactional;
 
 @Service
-@Transactional 
 public class PlayGroundServiceImpl implements PlayGroundService {
 
 	@Autowired
@@ -39,6 +38,7 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 	}
 
 	@Override
+	@Transactional
 	public PlayGroundDO addGround(PlayGroundDO playGround) {
 	
 		PlayGround playGround2=playGroundRespository.save(playGround.toEntity());
@@ -50,25 +50,36 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 	public PlayGroundDO getGround(String groundName) {
 		
 		PlayGroundDO playGroundDO=new PlayGroundDO();
-		return playGroundDO.dofromEntity(playGroundRespository.findByGroundName(groundName));
-	}
+		 PlayGroundDO playgro = playGroundDO.dofromEntity(playGroundRespository.findByGroundName(groundName));
+		return playgro;
+    }
 
 	@Override
 	@Transactional
 	@Modifying
 	public String deleteGround(String groundName) {
 		
-		//deleting all references
-		 PlayGround playground = playGroundRespository.findByGroundName(groundName);
-		        for (User user : playground.getConfirmedUsers()) {
-		            userService.removeGroundFromPlayer(user.getUsername(), playground.getGroundName());
-		        }
-		    
+			//deleting all references
+			deleteGroundReferences(groundName);
+			
 		    playGroundRespository.deleteByGroundName(groundName);
 		
 		
 		String status="Successfully_deleted";
 		return status;
+	}
+	
+	@Transactional
+	@Modifying
+	public void deleteGroundReferences(String groundName) {
+		PlayGroundDO playground = getGround(groundName);
+        for (User user : playground.getConfirmedUsers()) {
+           userService.removeGroundFromPlayer(user.getUsername(), playground.getGroundName());
+        }
+        
+        playGroundRespository.flush();
+    
+		
 	}
 
 	

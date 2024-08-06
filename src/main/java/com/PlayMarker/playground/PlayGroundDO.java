@@ -1,7 +1,9 @@
 package com.PlayMarker.playground;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+
+import java.util.LinkedList;
+import java.util.List;
+
 
 import com.PlayMarker.usermanage.User;
 
@@ -20,8 +22,8 @@ public class PlayGroundDO {
 	
 	private String groundName;
 	private Integer capacity;
-	private Set<User> confirmedUsers= new LinkedHashSet<User>();
-	
+	@Builder.Default
+	private List<User> confirmedUsers= new LinkedList<User>();
 	
 	
     // Method to convert PlayGroundDO to PlayGround entity
@@ -37,7 +39,7 @@ public class PlayGroundDO {
         PlayGroundDO playGroundDO = new PlayGroundDO();
         playGroundDO.setGroundName(playground.getGroundName());
     	playGroundDO.setCapacity(playground.getCapacity());
-    	playGroundDO.setConfirmedUsers(playground.getConfirmedUsers());;
+    	playGroundDO.setConfirmedUsers((List<User>) playground.getConfirmedUsers());;
         return playGroundDO;
     }
 	

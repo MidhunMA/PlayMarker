@@ -18,5 +18,5 @@ public class PlayMarkerApplication {
 }
       
  
-//next to fix, PlaygroundService.deleteGround delete a ground while it already added to multiple users.Issues in deleting the references...rest all works fine now
+//next to implement: custom exceptions and unit tests
 //Swagger Link: http://localhost:8080/swagger-ui/index.html

@@ -45,7 +45,7 @@ public class User {
     private boolean confirmedFlag=false;
     
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="confirmedPlayGround")
     private PlayGround confirmedPlayGround;
     // Constructors, getters, and setters
