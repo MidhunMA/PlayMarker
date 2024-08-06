@@ -18,6 +18,13 @@ public class GlobalExceptionHandler {
 	 public ResponseEntity<String> groundFilledException(GroundFilledException ex){ 
 		 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	 }
+	 
+	 
+	 @ExceptionHandler(NotPresentException.class)
+	 public ResponseEntity<String> notPresentException(NotPresentException ex){ 
+		 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	 }
+
 
 
 }

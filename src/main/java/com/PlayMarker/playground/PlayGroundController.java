@@ -26,7 +26,7 @@ public class PlayGroundController {
 	PlayGroundService playGroundService;
 	
 	@PostMapping("/addGround")
-	public ResponseEntity<PlayGroundDO> addGround(@RequestBody PlayGroundDO playGround) {
+	public ResponseEntity<PlayGroundDO> addGround(@RequestBody PlayGroundRequestTemplate playGround) {
 		
 		PlayGroundDO playDO= playGroundService.addGround(playGround);
 		return new ResponseEntity<PlayGroundDO>(playDO,HttpStatus.ACCEPTED);
@@ -41,7 +41,7 @@ public class PlayGroundController {
 	}
 	
 	@PutMapping("/updateGround/{groundName}")
-	public ResponseEntity<PlayGroundDO> updateGround(@PathVariable String groundName,@RequestBody PlayGroundDO playGround) {
+	public ResponseEntity<PlayGroundDO> updateGround(@PathVariable String groundName,@RequestBody PlayGroundRequestTemplate playGround) {
 		PlayGroundDO playDO= playGroundService.updateGround(groundName,playGround); 
 		return new ResponseEntity<PlayGroundDO>(playDO,HttpStatus.ACCEPTED);
 	}

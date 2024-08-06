@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.PlayMarker.Exceptions.GroundFilledException;
+import com.PlayMarker.Exceptions.NotPresentException;
 import com.PlayMarker.playground.PlayGround;
 import com.PlayMarker.playground.PlayGroundRespository;
 
@@ -35,7 +36,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public UserDO getUser(String username) {
 		UserDO userDO=new UserDO();
-		return userDO.dofromEntity(userRepository.findByUsername(username));
+		User userE=userRepository.findByUsername(username).orElseThrow(()->new NotPresentException("User Not Found In Database"));
+		return userDO.dofromEntity(userE);
 	}
     
 	@Transactional
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDO updateUser(String username,UserDO user) {
 		User user2 = new User();
-		user2=userRepository.findByUsername(username);
+		user2=userRepository.findByUsername(username).orElseThrow(()->new NotPresentException("User Not Found In Database"));
 		user2.setUsername(user.getUsername());
 		user2.setEmail(user.getEmail());
 		user2.setPassword(user.getPassword());
@@ -64,8 +66,8 @@ public class UserServiceImpl implements UserService {
 	public String addGroundToPlayer(String playerName, String playGroundName) {
 		
 		String status=null;
-		PlayGround playGround=playGroundRespository.findByGroundName(playGroundName);
-		User user=userRepository.findByUsername(playerName);
+		PlayGround playGround=playGroundRespository.findByGroundName(playGroundName).orElseThrow(()->new NotPresentException("Ground Not Found In Database"));
+		User user=userRepository.findByUsername(playerName).orElseThrow(()->new NotPresentException("User Not Found In Database"));
 		if(playGround.getCapacity()>playGround.getConfirmedUsers().size()) {
 			user.setConfirmedPlayGround(playGround);
 			user.setConfirmedFlag(true);
@@ -86,7 +88,7 @@ public class UserServiceImpl implements UserService {
 	public String removeGroundFromPlayer(String playerName, String playGroundName) {
 		
 		String status=null;
-		User user=userRepository.findByUsername(playerName);
+		User user=userRepository.findByUsername(playerName).orElseThrow(()->new NotPresentException("User Not Found In Database"));
 			user.setConfirmedPlayGround(null);
 			user.setConfirmedFlag(false);
 			userRepository.save(user);

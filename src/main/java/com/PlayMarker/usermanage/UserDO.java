@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDO {
      
-	
+	//UserDO not needed any additonal template since it dont have mapped fields in DO class unlike Ground
 	 private String username;
 	 private String password;
 	 private String email;

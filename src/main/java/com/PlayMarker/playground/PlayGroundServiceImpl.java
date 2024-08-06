@@ -3,10 +3,13 @@ package com.PlayMarker.playground;
 
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import com.PlayMarker.Exceptions.NotPresentException;
 import com.PlayMarker.usermanage.User;
 import com.PlayMarker.usermanage.UserRepository;
 import com.PlayMarker.usermanage.UserService;
@@ -28,10 +31,10 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 	@Transactional
 	@Modifying
 	@Override
-	public PlayGroundDO updateGround(String groundName,PlayGroundDO playGround) {
+	public PlayGroundDO updateGround(String groundName,PlayGroundRequestTemplate playGround) {
 		
 		PlayGround playGroundE = new PlayGround();
-		playGroundE=playGroundRespository.findByGroundName(groundName);
+		playGroundE=playGroundRespository.findByGroundName(groundName).orElseThrow(()->new NotPresentException("Ground Not Found In Database"));
 		playGroundE.setGroundName(playGround.getGroundName());
 		playGroundE.setCapacity(playGround.getCapacity());
 		return playGround.dofromEntity(playGroundRespository.save(playGroundE));
@@ -39,7 +42,7 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 
 	@Override
 	@Transactional
-	public PlayGroundDO addGround(PlayGroundDO playGround) {
+	public PlayGroundDO addGround(PlayGroundRequestTemplate playGround) {
 	
 		PlayGround playGround2=playGroundRespository.save(playGround.toEntity());
 		return playGround.dofromEntity(playGround2);
@@ -50,8 +53,10 @@ public class PlayGroundServiceImpl implements PlayGroundService {
 	public PlayGroundDO getGround(String groundName) {
 		
 		PlayGroundDO playGroundDO=new PlayGroundDO();
-		 PlayGroundDO playgro = playGroundDO.dofromEntity(playGroundRespository.findByGroundName(groundName));
-		return playgro;
+		PlayGround groundE=playGroundRespository.findByGroundName(groundName).orElseThrow(()->new NotPresentException("Ground Not Found In Database"));
+		
+		return  playGroundDO.dofromEntity(groundE);
+		
     }
 
 	@Override

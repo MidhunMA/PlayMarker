@@ -1,5 +1,7 @@
 package com.PlayMarker.playground;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +22,6 @@ public interface PlayGroundRespository extends JpaRepository<PlayGround,Integer>
 	
 	
 	@Query("SELECT DISTINCT p FROM PlayGround p LEFT JOIN FETCH p.confirmedUsers WHERE p.groundName = :groundName")
-	PlayGround findByGroundName(@Param("groundName") String groundName);
+	Optional<PlayGround> findByGroundName(@Param("groundName") String groundName);
 
 }
